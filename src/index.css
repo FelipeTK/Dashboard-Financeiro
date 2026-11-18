@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Syne', 'Outfit', ui-sans-serif, sans-serif;
+
+  --color-void: #05070d;
+  --color-ink: #070a12;
+  --color-surface: #0c1220;
+  --color-elevated: #121a2b;
+  --color-panel: #0e1624;
+  --color-mist: #1a2438;
+  --color-line: #243049;
+  --color-line-soft: #1a2336;
+
+  --color-fog: #8b9bb8;
+  --color-cloud: #c5d0e0;
+  --color-snow: #e8eef8;
+
+  --color-baby: #9fd0ff;
+  --color-sky: #7eb8ff;
+  --color-azure: #4a9eff;
+  --color-cobalt: #2b6cb0;
+  --color-navy: #1a2744;
+
+  --animate-aurora: aurora 18s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 3.2s ease-in-out infinite;
+}
+
+@keyframes aurora {
+  0%,
+  100% {
+    transform: translate(-8%, -6%) scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translate(6%, 8%) scale(1.12);
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    background: var(--color-ink);
+    color: var(--color-snow);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+  }
+
+  #root {
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-sky) 35%, transparent);
+    color: var(--color-snow);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-sky);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .glow-sky {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-sky) 25%, transparent),
+      0 0 24px color-mix(in srgb, var(--color-sky) 18%, transparent);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-snow) 0%, var(--color-baby) 55%, var(--color-sky) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-mist) transparent;
+  }
+}

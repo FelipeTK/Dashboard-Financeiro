@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
-
-const USER_NAME = 'Felipe'
+import { useAuth } from '../context/AuthContext'
 
 export function HomePage() {
+  const { profile, user } = useAuth()
+  const displayName = profile?.full_name || user?.email?.split('@')[0] || 'usuário'
+
   return (
     <section className="flex min-h-[calc(100dvh-8rem)] flex-col items-center justify-center text-center">
       <motion.div
@@ -28,7 +30,7 @@ export function HomePage() {
           transition={{ delay: 0.18, duration: 0.5 }}
           className="relative font-display text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl"
         >
-          <span className="text-gradient">Bem Vindo {USER_NAME}!</span>
+          <span className="text-gradient">Bem Vindo {displayName}!</span>
         </motion.h1>
 
         <motion.p

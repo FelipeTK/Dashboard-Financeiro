@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { CornerDownLeft, Search, X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { searchNavItems, type NavItem } from '../../config/navigation'
+import { searchNavItems, type FlatNavItem } from '../../config/navigation'
 
 export function SearchBar() {
   const navigate = useNavigate()
@@ -40,7 +40,7 @@ export function SearchBar() {
     return () => document.removeEventListener('mousedown', onPointerDown)
   }, [])
 
-  const goTo = (item: NavItem) => {
+  const goTo = (item: FlatNavItem) => {
     navigate(item.path)
     setQuery('')
     setOpen(false)
@@ -159,7 +159,9 @@ export function SearchBar() {
                       </span>
                       <span className="flex-1">
                         <span className="block text-sm font-medium">{item.label}</span>
-                        <span className="block text-xs text-fog">{item.path}</span>
+                        <span className="block text-xs text-fog">
+                          {item.parentLabel ? `${item.parentLabel} · ${item.path}` : item.path}
+                        </span>
                       </span>
                       {active && <CornerDownLeft size={14} className="text-sky" />}
                     </button>

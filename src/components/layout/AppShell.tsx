@@ -16,7 +16,7 @@ export function AppShell() {
           className="absolute -bottom-32 right-0 h-96 w-96 rounded-full bg-cobalt/25 blur-3xl animate-aurora"
           style={{ animationDelay: '-6s' }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(36,48,73,0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgba(36,48,73,0.18)_1px,transparent_1px)] bg-[size:48px_48px] opacity-30" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,color-mix(in_srgb,var(--color-line)_55%,transparent)_1px,transparent_1px),linear-gradient(to_bottom,color-mix(in_srgb,var(--color-line)_55%,transparent)_1px,transparent_1px)] bg-[size:48px_48px] opacity-35" />
       </div>
 
       <div className="relative z-20 hidden h-full lg:block">

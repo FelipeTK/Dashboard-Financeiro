@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, PanelLeftClose, PanelLeftOpen, X } from 'lucide-react'
+import { Menu, PanelLeftClose, PanelLeftOpen, Settings, X } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { NAV_ITEMS } from '../../config/navigation'
 import { useSidebar } from '../../context/SidebarContext'
+import { SidebarNavItem } from './SidebarNavItem'
 
 type SidebarProps = {
   variant?: 'desktop' | 'mobile'
@@ -73,7 +74,7 @@ export function Sidebar({ variant = 'desktop' }: SidebarProps) {
         )}
       </div>
 
-      <nav className="relative mt-2 flex flex-1 flex-col gap-1 px-3 pb-6">
+      <nav className="relative mt-2 flex flex-1 flex-col gap-1 overflow-y-auto px-3 pb-4 scrollbar-thin">
         <p
           className={`mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-fog/70 ${
             isCollapsed ? 'text-center' : ''
@@ -82,99 +83,69 @@ export function Sidebar({ variant = 'desktop' }: SidebarProps) {
           {isCollapsed ? '···' : 'Menu'}
         </p>
 
-        {NAV_ITEMS.map((item, index) => {
-          const Icon = item.icon
-          return (
-            <NavLink
-              key={item.id}
-              to={item.path}
-              end={item.path === '/'}
-              onClick={isMobile ? closeMobile : undefined}
-              className="group relative block"
-            >
-              {({ isActive }) => (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 * index, duration: 0.35 }}
-                  className={`relative flex items-center gap-3 overflow-hidden rounded-xl px-3 py-3 transition-colors ${
-                    isActive
-                      ? 'bg-sky/15 text-baby'
-                      : 'text-fog hover:bg-mist/50 hover:text-cloud'
-                  } ${isCollapsed ? 'justify-center px-0' : ''}`}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId={isMobile ? 'nav-active-mobile' : 'nav-active'}
-                      className="absolute inset-0 rounded-xl border border-sky/25 bg-gradient-to-r from-sky/20 via-sky/10 to-transparent"
-                      transition={{ type: 'spring', stiffness: 380, damping: 34 }}
-                    />
-                  )}
-
-                  <span
-                    className={`relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition ${
-                      isActive
-                        ? 'bg-sky/20 text-baby'
-                        : 'bg-elevated/80 text-fog group-hover:text-sky'
-                    }`}
-                  >
-                    <Icon size={18} strokeWidth={isActive ? 2.25 : 1.75} />
-                  </span>
-
-                  <AnimatePresence initial={false}>
-                    {!isCollapsed && (
-                      <motion.span
-                        key="label"
-                        initial={{ opacity: 0, x: -6 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -6 }}
-                        transition={{ duration: 0.18 }}
-                        className="relative z-10 truncate text-sm font-medium tracking-wide"
-                      >
-                        {item.label}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-
-                  {isCollapsed && (
-                    <span className="pointer-events-none absolute left-full z-50 ml-3 hidden whitespace-nowrap rounded-lg border border-line bg-elevated px-2.5 py-1.5 text-xs font-medium text-snow opacity-0 shadow-xl transition group-hover:opacity-100 lg:block">
-                      {item.label}
-                    </span>
-                  )}
-                </motion.div>
-              )}
-            </NavLink>
-          )
-        })}
+        {NAV_ITEMS.map((item, index) => (
+          <SidebarNavItem
+            key={item.id}
+            item={item}
+            index={index}
+            isCollapsed={isCollapsed}
+            isMobile={isMobile}
+          />
+        ))}
       </nav>
 
-      <div className="relative border-t border-line-soft p-4">
-        <AnimatePresence initial={false} mode="wait">
-          {isCollapsed ? (
-            <motion.div
-              key="mini"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex justify-center"
+      <div className="relative border-t border-line-soft p-3">
+        <NavLink
+          to="/configuracoes"
+          onClick={isMobile ? closeMobile : undefined}
+          className="group relative block"
+        >
+          {({ isActive }) => (
+            <div
+              className={`relative flex items-center gap-3 overflow-hidden rounded-xl px-3 py-3 transition-colors ${
+                isActive ? 'bg-sky/15 text-baby' : 'text-fog hover:bg-mist/50 hover:text-cloud'
+              } ${isCollapsed ? 'justify-center px-0' : ''}`}
             >
-              <div className="h-2 w-2 rounded-full bg-sky animate-pulse-soft" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="full"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 6 }}
-              className="rounded-xl border border-line-soft bg-elevated/60 px-3 py-3"
-            >
-              <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-fog">
-                Status
-              </p>
-              <p className="mt-1 text-sm text-cloud">Sistema online</p>
-            </motion.div>
+              {isActive && (
+                <motion.span
+                  layoutId={isMobile ? 'nav-settings-mobile' : 'nav-settings'}
+                  className="absolute inset-0 rounded-xl border border-sky/25 bg-gradient-to-r from-sky/20 via-sky/10 to-transparent"
+                  transition={{ type: 'spring', stiffness: 380, damping: 34 }}
+                />
+              )}
+
+              <span
+                className={`relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition ${
+                  isActive
+                    ? 'bg-sky/20 text-baby'
+                    : 'bg-elevated/80 text-fog group-hover:text-sky'
+                }`}
+              >
+                <Settings size={18} strokeWidth={isActive ? 2.25 : 1.75} />
+              </span>
+
+              <AnimatePresence initial={false}>
+                {!isCollapsed && (
+                  <motion.span
+                    key="settings-label"
+                    initial={{ opacity: 0, x: -6 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -6 }}
+                    className="relative z-10 truncate text-sm font-medium tracking-wide"
+                  >
+                    Configurações
+                  </motion.span>
+                )}
+              </AnimatePresence>
+
+              {isCollapsed && (
+                <span className="pointer-events-none absolute left-full z-50 ml-3 hidden whitespace-nowrap rounded-lg border border-line bg-elevated px-2.5 py-1.5 text-xs font-medium text-snow opacity-0 shadow-xl transition group-hover:opacity-100 lg:block">
+                  Configurações
+                </span>
+              )}
+            </div>
           )}
-        </AnimatePresence>
+        </NavLink>
       </div>
     </motion.aside>
   )

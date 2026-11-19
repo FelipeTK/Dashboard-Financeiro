@@ -1,0 +1,2 @@
+-- Seed opcional para ambiente local (supabase db reset)
+-- No cloud, as categorias padrão já são criadas no signup via trigger.
